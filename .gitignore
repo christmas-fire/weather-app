@@ -1,0 +1,12 @@
+# Example response data
+example.json
+
+# Configs
+*.yaml
+
+# Executable file
+weather
+
+# Folders
+.idea
+.vscode
