@@ -2,7 +2,7 @@
 example.json
 
 # Configs
-*.yaml
+config/config.yaml
 
 # Executable file
 weather

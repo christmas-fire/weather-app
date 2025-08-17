@@ -1,15 +1,13 @@
 package models
 
-// Weather data model
 type WeatherData struct {
-	Name string `json:"name"`
-	Date int64  `json:"dt"`
+	Name string `json:"name"` // example: "London"
+	Date int64  `json:"dt"`   // example: 1755413914
 	Main struct {
-		Temp       float64 `json:"temp"`
-		Feels_like float64 `json:"feels_like"`
+		Temp       float64 `json:"temp"`       // example: 15.42
+		Feels_like float64 `json:"feels_like"` // example: 15
 	} `json:"main"`
 	Weather []struct {
-		Main        string `json:"main"`
-		Description string `json:"description"`
+		Description string `json:"description"` // example: "clear sky"
 	} `json:"weather"`
 }

@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/christmas-fire/weather-app/config"
-	"github.com/christmas-fire/weather-app/internal/format"
 	"github.com/christmas-fire/weather-app/internal/models"
+	"github.com/christmas-fire/weather-app/internal/out"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 )
@@ -58,7 +58,7 @@ func NewApp() *cli.App {
 				return fmt.Errorf("error: unmarshal json: %s", err.Error())
 			}
 
-			format.PrintWeatherData(weatherData, lang)
+			out.PrintWeatherData(weatherData, lang)
 
 			return nil
 		},
