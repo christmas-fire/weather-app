@@ -6,10 +6,12 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/christmas-fire/weather-app/internal/models"
+	"github.com/christmas-fire/weather-app/internal/utils"
 )
 
-// Print a formatted weather data
-func PrintWeatherData(wd models.WeatherData, lang string) {
+// PrintWeatherData prints the weather data in a styled box.
+// It uses lipgloss for styling and colors temperature based on its value.
+func PrintWeatherData(wd models.WeatherData) {
 	dt := time.Unix(wd.Date, 0)
 	date := dt.Format("02-01-2006")
 
@@ -18,22 +20,17 @@ func PrintWeatherData(wd models.WeatherData, lang string) {
 	temp := wd.Main.Temp
 	feels_like := wd.Main.Feels_like
 
-	description := wd.Weather[0].Description
+	description := utils.CapitalizeFirst(wd.Weather[0].Description)
 
 	borderStyle := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("#248AFD")).
 		Padding(1, 2)
 
-	titleStyle := lipgloss.NewStyle().
-		Bold(true).
-		Foreground(lipgloss.Color("#248AFD")).
-		MarginBottom(1).Align(lipgloss.Center)
-
 	const (
 		dateWidth    = 12
 		cityWidth    = 15
-		weatherWidth = 30
+		weatherWidth = 20
 		tempWidth    = 13
 		feelsWidth   = 16
 	)
@@ -42,54 +39,37 @@ func PrintWeatherData(wd models.WeatherData, lang string) {
 		Padding(0, 1).
 		Align(lipgloss.Center)
 
-	headerStyle := itemStyle.Copy().
+	headerStyle := itemStyle.
 		Bold(true).
 		Foreground(lipgloss.Color("#FFFFFF")).
 		Background(lipgloss.Color("#248AFD"))
 
-	dateStyle := itemStyle.Copy().
+	dateStyle := itemStyle.
 		Foreground(lipgloss.Color("#888888")).
 		Width(dateWidth)
 
-	cityStyle := itemStyle.Copy().
+	cityStyle := itemStyle.
 		Foreground(lipgloss.Color("#00FFFF")).
 		Width(cityWidth)
 
-	weatherStyle := itemStyle.Copy().
+	weatherStyle := itemStyle.
 		Foreground(lipgloss.Color("#FFFFFF")).
 		Width(weatherWidth)
 
-	tempStyle := itemStyle.Copy().
-		Foreground(lipgloss.Color("#FFA500")).
-		Bold(true).
+	tempStyle := itemStyle.
+		Foreground(lipgloss.Color(utils.GetColorForTemperature(temp))).
 		Width(tempWidth)
 
-	feelsStyle := itemStyle.Copy().
-		Foreground(lipgloss.Color("#FF69B4")).
+	feelsStyle := itemStyle.
+		Foreground(lipgloss.Color(utils.GetColorForTemperature(temp))).
 		Width(feelsWidth)
 
-	var headerDate, headerCity, headerWeather, headerTemp, headerFeels string
-	title := "WEATHER APP"
-	if lang == "ru" || lang == "russian" {
-		headerDate = "Дата"
-		headerCity = "Город"
-		headerWeather = "Погода"
-		headerTemp = "Температура"
-		headerFeels = "Ощущается как"
-	} else {
-		headerDate = "Date"
-		headerCity = "City"
-		headerWeather = "Weather"
-		headerTemp = "Temperature"
-		headerFeels = "Feels like"
-	}
-
 	headerRow := lipgloss.JoinHorizontal(lipgloss.Top,
-		headerStyle.Copy().Width(dateWidth).Render(headerDate),
-		headerStyle.Copy().Width(cityWidth).Render(headerCity),
-		headerStyle.Copy().Width(weatherWidth).Render(headerWeather),
-		headerStyle.Copy().Width(tempWidth).Render(headerTemp),
-		headerStyle.Copy().Width(feelsWidth).Render(headerFeels),
+		headerStyle.Width(dateWidth).Render("Date"),
+		headerStyle.Width(cityWidth).Render("City"),
+		headerStyle.Width(weatherWidth).Render("Weather"),
+		headerStyle.Width(tempWidth).Render("Temperature"),
+		headerStyle.Width(feelsWidth).Render("Feels like"),
 	)
 
 	dataRow := lipgloss.JoinHorizontal(lipgloss.Top,
@@ -101,7 +81,6 @@ func PrintWeatherData(wd models.WeatherData, lang string) {
 	)
 
 	content := lipgloss.JoinVertical(lipgloss.Center,
-		titleStyle.Render(title),
 		headerRow,
 		dataRow,
 	)

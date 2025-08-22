@@ -1,5 +1,6 @@
 package models
 
+// WeatherData represents the structure of the weather data received from the API.
 type WeatherData struct {
 	Name string `json:"name"` // example: "London"
 	Date int64  `json:"dt"`   // example: 1755413914

@@ -1,0 +1,40 @@
+version: '3'
+
+vars:
+  NAME: bin/weather-app
+  PATH: cmd/main.go
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+
+  build:windows:
+    platform: windows/amd64
+    cmds:
+      - go build -o "{{.NAME}}".exe "{{.PATH}}"
+    silent: true
+
+  build:linux:
+    platform: linux/amd64
+    cmds:
+      - go build -o "{{.NAME}}" "{{.PATH}}"
+    silent: true
+
+  run:windows:
+    platform: windows/amd64
+    deps:
+      - build:windows
+    cmds:
+      - ./{{.NAME}}.exe
+    silent: true
+
+  run:linux:
+    platform: linux/amd64
+    deps:
+      - build:linux
+    cmds:
+      - ./{{.NAME}}
+    silent: true
+      

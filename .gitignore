@@ -1,12 +1,7 @@
-# Example response data
-example.json
-
 # Configs
-config/config.yaml
-
-# Executable file
-weather
+.env
 
 # Folders
 .idea
 .vscode
+bin
