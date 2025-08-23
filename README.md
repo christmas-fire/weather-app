@@ -1,7 +1,8 @@
 # weather-app
 
 The `weather-app` is a CLI tool that fetches the current weather for a specified city using the OpenWeatherMap API and displays it right into your terminal.
-<img width="500" src="./example.gif" />
+
+<img width="600" src="./example.gif" />
 
 ## Install
 First, clone a repository
